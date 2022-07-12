@@ -1,2 +1,2 @@
 # edgeradicator
-Alternative to now obsolete EdgeDeflecter
+Alternative to the now obsolete EdgeDeflecter
