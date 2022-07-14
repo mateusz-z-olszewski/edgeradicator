@@ -1,23 +1,15 @@
 #define _WIN32_DCOM
 
-#include <iostream>
 #include <comdef.h>
 #include <Wbemidl.h>
-#include <iostream>
-
 #include "URLDecode.h"
+#include <string>
 
 #pragma once
 #pragma comment(lib, "wbemuuid.lib")
 
 #define WQLQUERY L"SELECT * FROM Win32_Process WHERE name='msedge.exe'"
 #define CMDLINEARGNEEDLE "Microsoft.Windows.Search"
-
-using std::cout;
-using std::hex;
-using std::endl;
-using std::wcout;
-
 
 class WmiServer {
 private:
@@ -78,7 +70,6 @@ private:
             pclsObj->Release();
         }
 
-        cout << endl << endl;
 
         pEnumerator->Reset();
         pEnumerator->Release();
@@ -88,20 +79,14 @@ private:
 
 public:
     WmiServer() {
-        cout << "constructing" << std::endl;
 
-        // Code from https://docs.microsoft.com/en-us/windows/win32/wmisdk/wmi-c---application-examples
 
         // Step 1: --------------------------------------------------
         // Initialize COM. ------------------------------------------
 
         this->hres = CoInitializeEx(0, COINIT_MULTITHREADED);
         if (FAILED(this->hres))
-        {
-            cout << "Failed to initialize COM library. Error code = 0x"
-                << hex << this->hres << endl;
             return;                  // Program has failed.
-        }
 
         // Step 2: --------------------------------------------------
         // Set general COM security levels --------------------------
@@ -121,8 +106,6 @@ public:
 
         if (FAILED(this->hres))
         {
-            cout << "Failed to initialize security. Error code = 0x"
-                << hex << this->hres << endl;
             CoUninitialize();
             return;                      // Program has failed.
         }
@@ -140,9 +123,6 @@ public:
 
         if (FAILED(this->hres))
         {
-            cout << "Failed to create IWbemLocator object. "
-                << "Err code = 0x"
-                << hex << this->hres << endl;
             CoUninitialize();
             return;                 // Program has failed.
         }
@@ -166,14 +146,10 @@ public:
 
         if (FAILED(this->hres))
         {
-            cout << "Could not connect. Error code = 0x"
-                << hex << this->hres << endl;
             this->pLoc->Release();
             CoUninitialize();
             return;                // Program has failed.
         }
-
-        cout << "Connected to ROOT\\CIMV2 WMI namespace" << endl;
 
 
         // Step 5: --------------------------------------------------
@@ -192,8 +168,6 @@ public:
 
         if (FAILED(this->hres))
         {
-            cout << "Could not set proxy blanket. Error code = 0x"
-                << hex << this->hres << endl;
             this->pSvc->Release();
             this->pLoc->Release();
             CoUninitialize();
@@ -201,7 +175,6 @@ public:
         }
     }
     ~WmiServer() {
-        cout << "deconstructing" << std::endl;
 
 
         this->pLoc->Release();

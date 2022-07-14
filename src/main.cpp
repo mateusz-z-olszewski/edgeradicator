@@ -1,13 +1,18 @@
 #define _WIN32_DCOM
+#define DEBUG 0
 
+#if DEBUG
 #include <iostream>
+#include "measureTime.h"
+#endif
 #include <comdef.h>
 #include <Wbemidl.h>
 
 #include "WmiServer.h"
-#include "measureTime.h"
+
 
 #pragma comment(lib, "wbemuuid.lib")
+
 
 int P = 0;
 const std::string PREFIXES[] = {
@@ -23,29 +28,32 @@ void edgeradicate(std::string query) {
         "start " +
         PREFIXES[P] +
         query;
-    cout << startcmd.c_str() << endl;
+
     system(startcmd.c_str());
 }
 
-
 int main(int argc, char** argv)
 {
+    ShowWindow(GetConsoleWindow(), SW_HIDE);
     URLDecodeInit();
 
-    system("taskkill /IM msedge.exe /F");
+    //system("taskkill /IM msedge.exe /F");
 
 
-    WmiServer abc;
-    cout << hex << &abc << endl;
+    WmiServer wmis;
+    std::string result;
 
     while (true) {
+#if DEBUG
         Timer();
-        std::string result = abc.CheckForProcesses();
-        cout << "<" << result << ">" << endl;
+#endif
+        result = wmis.CheckForProcesses();
         if (result != "") {
             edgeradicate(result);
         }
-        cout << Measure() << endl;
+#if DEBUG
+        if (DEBUG) std::cout << Measure() << endl;
+#endif
     }
 
     return 0;
