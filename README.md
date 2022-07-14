@@ -4,7 +4,7 @@ An alternative to the now obsolete [EdgeDeflector](https://github.com/da2x/EdgeD
 
 
 
-# Coming soon:
+## Coming soon:
 - ability to change the search engine 
 - tray icon for setup
 - ...
