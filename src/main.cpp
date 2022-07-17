@@ -5,8 +5,6 @@
 #include <iostream>
 #include "measureTime.h"
 #endif
-#include <comdef.h>
-#include <Wbemidl.h>
 
 #include "WmiServer.h"
 
@@ -34,8 +32,9 @@ void edgeradicate(std::string query) {
 
 int main(int argc, char** argv)
 {
+#if !DEBUG
     ShowWindow(GetConsoleWindow(), SW_HIDE);
-    URLDecodeInit();
+#endif
 
     //system("taskkill /IM msedge.exe /F");
 
@@ -52,7 +51,7 @@ int main(int argc, char** argv)
             edgeradicate(result);
         }
 #if DEBUG
-        if (DEBUG) std::cout << Measure() << endl;
+        if (DEBUG) std::cout << Measure() << std::endl;
 #endif
     }
 
